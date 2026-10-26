@@ -26,6 +26,7 @@ const IMAGE = `{
 }`
 
 const GROUP = `{
+  includeAllActive,
   required,
   maxSelections,
   "choices": choices[]{ "optionId": option._ref, isDefault, "priceOverride": priceOverride${PRICING} }
@@ -35,7 +36,7 @@ export const CATALOGUE_QUERY = `{
   "settings": *[_type == "cakeSiteSettings" && ${NOT_DRAFT}][0]{
     businessName, mainWebsiteUrl, whatsappNumber, contactEmail, currency, timezone,
     defaultLeadTimeDays, collectionInstructions, quotationDisclaimer, privacyNoticeUrl,
-    customOrderUrl, customOrderCtaText, servingsNote, allergenInfoUrl, maintenanceNotice,
+    customOrderUrl, customOrderCtaText, servingsNote, dessertPortionsHelp, coffeePortionsHelp, allergenInfoUrl, maintenanceNotice,
     builderEnabled
   },
   "categories": *[_type == "cakeCategory" && showOnWebsite != false && ${NOT_DRAFT}] | order(order asc) {

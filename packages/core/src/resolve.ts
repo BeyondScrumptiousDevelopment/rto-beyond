@@ -102,10 +102,19 @@ export function resolveGroups(catalogue: Catalogue, design: Design): Record<Opti
   for (const kind of OPTION_KINDS) {
     const g = design.groups[kind]
     const choices: ResolvedChoice[] = []
+    const listed = new Set<string>()
     for (const c of g.choices) {
       const option = byId.get(c.optionId)
       if (!option || !option.active || option.kind !== kind) continue
+      listed.add(option.id)
       choices.push({ option, pricing: c.priceOverride ?? option.pricing, isDefault: c.isDefault })
+    }
+    if (g.includeAllActive) {
+      for (const option of catalogue.options) {
+        if (option.kind !== kind || !option.active || listed.has(option.id)) continue
+        choices.push({ option, pricing: option.pricing, isDefault: false })
+      }
+      choices.sort((a, b) => byOrder(a.option, b.option))
     }
     groups[kind] = {
       required: g.required && choices.length > 0,

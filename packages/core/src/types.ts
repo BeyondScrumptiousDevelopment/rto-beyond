@@ -122,6 +122,8 @@ export interface DesignChoice {
 }
 
 export interface OptionGroup {
+  /** Offer every active option of this kind, plus any listed below (for defaults/overrides). */
+  includeAllActive: boolean
   required: boolean
   maxSelections: number
   choices: DesignChoice[]
@@ -192,6 +194,8 @@ export interface Settings {
   customOrderUrl: string
   customOrderCtaText: string
   servingsNote: string | null
+  dessertPortionsHelp: string | null
+  coffeePortionsHelp: string | null
   allergenInfoUrl: string | null
   maintenanceNotice: string | null
   builderEnabled: boolean

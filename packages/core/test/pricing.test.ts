@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { estimate, isComplete, type Estimate, type EstimateResult } from '../src/estimate'
 import { formatPence, priceFor } from '../src/money'
+import { resolveGroups } from '../src/resolve'
 import { catalogue, select } from './helpers'
 
 const basicA = {
@@ -124,6 +125,17 @@ describe('estimate — options', () => {
     const r = ok(estimate(catalogue(), select('test-design-a', { configurationId: 'cfg-r6-3' })))
     expect(r.totalPence).toBe(1000)
     expect(r.incomplete.map((i) => i.field)).toEqual(['flavour', 'filling', 'frosting'])
+  })
+
+  it('offers every active option by default when a design does not list its own', () => {
+    const cat = catalogue()
+    const d = cat.designs.find((d) => d.slug === 'test-design-all-options')!
+    const groups = resolveGroups(cat, d)
+    expect(groups.flavour.choices.map((c) => c.option.id)).toEqual(['flv-vanilla', 'flv-premium', 'flv-sized'])
+    expect(groups.frosting.choices.map((c) => c.option.id)).toEqual(['frs-butter', 'frs-ganache'])
+    expect(groups.flavour.required).toBe(true)
+    const r = ok(estimate(cat, select('test-design-all-options', { configurationId: 'cfg-r6-3', flavour: ['flv-sized'], filling: ['fil-jam'], frosting: ['frs-ganache'] })))
+    expect(r.totalPence).toBe(1700)
   })
 
   it('ignores duplicate IDs in the selection', () => {

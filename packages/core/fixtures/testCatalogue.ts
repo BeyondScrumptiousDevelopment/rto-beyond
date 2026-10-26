@@ -45,6 +45,8 @@ export function rawTestCatalogue() {
       customOrderUrl: 'https://www.beyondscrumptious.com/contact',
       customOrderCtaText: 'Looking for something different? Request a custom cake.',
       servingsNote: 'Serving numbers are estimates and depend on how the cake is sliced.',
+      dessertPortionsHelp: 'Test: larger slices served as the main dessert.',
+      coffeePortionsHelp: 'Test: smaller slices served alongside tea or coffee.',
       allergenInfoUrl: 'https://www.beyondscrumptious.com/allergen-information',
       maintenanceNotice: null,
       builderEnabled: true,
@@ -97,9 +99,9 @@ export function rawTestCatalogue() {
           img('side-a', { view: 'side', caption: 'Side view', labels: [{ text: 'Test overlay', placement: 'overlay', x: 30, y: 40 }] }),
           img('cut-a', { view: 'crossSection', caption: 'Cross-section', shownElements: [{ description: 'Test drip', status: 'paidOption' }] }),
         ],
-        flavours: { required: true, maxSelections: 1, choices: [choice('flv-vanilla', true), choice('flv-premium'), choice('flv-sized'), choice('flv-inactive')] },
-        fillings: { required: true, maxSelections: 1, choices: [choice('fil-jam', true)] },
-        frostings: { required: true, maxSelections: 1, choices: [choice('frs-butter', true), choice('frs-ganache')] },
+        flavours: { includeAllActive: false, required: true, maxSelections: 1, choices: [choice('flv-vanilla', true), choice('flv-premium'), choice('flv-sized'), choice('flv-inactive')] },
+        fillings: { includeAllActive: false, required: true, maxSelections: 1, choices: [choice('fil-jam', true)] },
+        frostings: { includeAllActive: false, required: true, maxSelections: 1, choices: [choice('frs-butter', true), choice('frs-ganache')] },
         extras: [
           { extraId: 'ext-candles', priceOverride: null },
           { extraId: 'ext-box', priceOverride: null },
@@ -117,9 +119,9 @@ export function rawTestCatalogue() {
           { configurationId: 'cfg-tiered', action: 'offer', basePriceOverridePence: null, note: 'Test tier note' },
           { configurationId: 'cfg-r6-3', action: 'offer', basePriceOverridePence: 1200, note: null },
         ],
-        flavours: { required: true, maxSelections: 2, choices: [choice('flv-vanilla', true), choice('flv-premium', false, fixed(250))] },
-        fillings: null,
-        frostings: null,
+        flavours: { includeAllActive: false, required: true, maxSelections: 2, choices: [choice('flv-vanilla', true), choice('flv-premium', false, fixed(250))] },
+        fillings: { includeAllActive: false, required: false, maxSelections: 1, choices: [] },
+        frostings: { includeAllActive: false, required: false, maxSelections: 1, choices: [] },
         decorationOverrides: [
           { decorationId: 'dec-balls', action: 'exclude', priceOverride: null, restrictToConfigurationIds: null, note: null },
           { decorationId: 'dec-sparkler', action: 'include', priceOverride: null, restrictToConfigurationIds: null, note: 'Test note' },
@@ -130,15 +132,19 @@ export function rawTestCatalogue() {
       design('des-paused', 'test-design-paused', 'Test Design Paused', {
         order: 3,
         acceptingEnquiries: false,
-        flavours: { required: true, maxSelections: 1, choices: [choice('flv-vanilla', true)] },
+        flavours: { includeAllActive: false, required: true, maxSelections: 1, choices: [choice('flv-vanilla', true)] },
       }),
       design('des-noinherit', 'test-design-noinherit', 'Test Design No Inherit', {
         order: 4,
         inheritStandardDecorations: false,
-        flavours: { required: true, maxSelections: 1, choices: [choice('flv-premium', false, { mode: 'fixed', amountPence: -5, bySize: null })] },
+        flavours: { includeAllActive: false, required: true, maxSelections: 1, choices: [choice('flv-premium', false, { mode: 'fixed', amountPence: -5, bySize: null })] },
         decorationOverrides: [
           { decorationId: 'dec-gold', action: 'include', priceOverride: null, restrictToConfigurationIds: null, note: null },
         ],
+      }),
+      design('des-all', 'test-design-all-options', 'Test Design All Options', {
+        order: 5,
+        // flavours/fillings/frostings left unset → every active option is offered
       }),
       // Invalid: no name — must be skipped and reported.
       { ...design('des-invalid', 'test-design-invalid', '', {}), name: null },

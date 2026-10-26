@@ -39,3 +39,15 @@ export function lowestPrice(rule: PricingRule | null, configurationIds: string[]
   const prices = configurationIds.map((id) => priceFor(rule, id)).filter((p): p is number => p !== null)
   return prices.length ? Math.min(...prices) : null
 }
+
+/** Short human description of a normalised rule, e.g. "£8", "Included", "By size". */
+export function describePricingRule(rule: PricingRule | null): string {
+  if (!rule) return 'No valid price'
+  if (rule.mode === 'included') return 'Included'
+  if (rule.mode === 'fixed') return formatPence(rule.amountPence)
+  const prices = Object.values(rule.bySize)
+  if (!prices.length) return 'No valid price'
+  const min = Math.min(...prices)
+  const max = Math.max(...prices)
+  return min === max ? formatPence(min) : `${formatPence(min)}–${formatPence(max)} by size`
+}

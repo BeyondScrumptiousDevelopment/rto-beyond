@@ -115,6 +115,8 @@ const settingsSchema = z.object({
   customOrderUrl: z.string().url(),
   customOrderCtaText: optText.transform((v) => v ?? 'Looking for something different? Request a custom cake.'),
   servingsNote: optText,
+  dessertPortionsHelp: optText,
+  coffeePortionsHelp: optText,
   allergenInfoUrl: z.string().url().nullish().transform((v) => v ?? null),
   maintenanceNotice: optText,
   builderEnabled: bool(true),
@@ -229,6 +231,7 @@ const imageSchema = z
 
 const rawGroup = z
   .object({
+    includeAllActive: z.boolean().nullish(),
     required: z.boolean().nullish(),
     maxSelections: z.number().int().positive().nullish(),
     choices: z
@@ -434,8 +437,13 @@ export function parseCatalogue(raw: unknown, fetchedAt: string = new Date().toIS
         }
         choices.push({ optionId: c.optionId, isDefault: !!c.isDefault, priceOverride: override })
       }
-      const maxSelections = raw?.maxSelections ?? 1
-      return { required: raw?.required ?? choices.length > 0, maxSelections, choices }
+      return {
+        // Default: every active option is offered and one must be chosen.
+        includeAllActive: raw?.includeAllActive ?? true,
+        required: raw?.required ?? true,
+        maxSelections: raw?.maxSelections ?? 1,
+        choices,
+      }
     }
 
     const decorationOverrides: Design['decorationOverrides'] = []

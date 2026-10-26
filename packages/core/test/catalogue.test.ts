@@ -19,6 +19,7 @@ describe('parseCatalogue', () => {
       'test-design-b',
       'test-design-paused',
       'test-design-noinherit',
+      'test-design-all-options',
     ])
     expect(issues.some((i) => i.startsWith('Design') && i.includes('skipped'))).toBe(true)
   })
