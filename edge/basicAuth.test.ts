@@ -54,7 +54,7 @@ describe('/studio redirect', () => {
   it('sends /studio to the hosted Studio, keeping sub-paths', async () => {
     const res = await onRequest({ request: req('/studio'), env: {}, next })
     expect(res.status).toBe(302)
-    expect(res.headers.get('Location')).toBe('https://beyondscrumptious-cakes.sanity.studio')
+    expect(res.headers.get('Location')).toBe('https://beyondscrumptious-cakes.sanity.studio/')
     const deep = await onRequest({ request: req('/studio/structure/cakeDesign'), env: { STUDIO_URL: 'https://other.sanity.studio/' }, next })
     expect(deep.headers.get('Location')).toBe('https://other.sanity.studio/structure/cakeDesign')
   })
