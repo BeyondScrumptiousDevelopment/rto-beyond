@@ -1,0 +1,21 @@
+{
+  "name": "bs-cake-builder",
+  "private": true,
+  "workspaces": [
+    "packages/core",
+    "apps/web",
+    "studio"
+  ],
+  "scripts": {
+    "test": "npm run test -w @bs/core && npm run test -w studio",
+    "typecheck": "npm run typecheck -w @bs/core && npm run typecheck -w web && npm run typecheck -w studio",
+    "dev": "npm run dev -w web",
+    "build": "npm run build -w web",
+    "e2e": "npm run e2e -w web",
+    "studio:dev": "npm run dev -w studio",
+    "studio:deploy": "npm run deploy -w studio"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
