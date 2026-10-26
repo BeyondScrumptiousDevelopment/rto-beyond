@@ -5,7 +5,7 @@ The cake builder is a static site on **Cloudflare Pages**, reading its catalogue
 ## 1. Create the Sanity project (once)
 
 1. Go to <https://www.sanity.io/manage> → **Create new project**. Name it "Beyond Scrumptious Cakes", with a dataset called `production` and **Public** visibility. Public is needed because the website reads published content without a token. Drafts are never public.
-2. Note the **Project ID**.
+2. The project has been created: **Project ID `sxg9pxs1`**. It is already set as the default in the code.
 3. Go to **API → CORS origins → Add origin** and add each of these, with **Allow credentials left off**:
    - `https://cakes.beyondscrumptious.com`
    - the Pages staging URL from step 3, e.g. `https://bs-cakes.pages.dev`
@@ -15,7 +15,7 @@ The cake builder is a static site on **Cloudflare Pages**, reading its catalogue
    ```bash
    npm install
    cd studio
-   cp .env.example .env          # then put the Project ID in .env
+   cp .env.example .env          # already contains sxg9pxs1
    npx sanity login
    npx sanity dataset import seed/catalogue.ndjson production
    npx sanity deploy             # hosted Studio at https://beyondscrumptious-cakes.sanity.studio
@@ -40,7 +40,7 @@ In the Cloudflare dashboard, go to **Workers & Pages → Create → Pages → Co
 
 | Name | Value |
 |---|---|
-| `VITE_SANITY_PROJECT_ID` | the Project ID from step 1 |
+| `VITE_SANITY_PROJECT_ID` | `sxg9pxs1` (optional, as the code defaults to it) |
 | `VITE_SANITY_DATASET` | `production` |
 | `NODE_VERSION` | `22` |
 
@@ -74,7 +74,7 @@ If Sanity can't be reached, the site shows an error with a "Try again" button an
 
 ```bash
 npm install
-cp apps/web/.env.example apps/web/.env.local   # add the Project ID
+cp apps/web/.env.example apps/web/.env.local   # optional; defaults to sxg9pxs1
 npm run dev            # website at http://localhost:5173
 npm run studio:dev     # Studio at http://localhost:3333 (needs studio/.env)
 npm test               # pricing engine, Studio schema and seed tests

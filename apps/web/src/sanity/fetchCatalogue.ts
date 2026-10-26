@@ -5,7 +5,8 @@ const API_VERSION = 'v2025-02-19'
 const QUERY = CATALOGUE_QUERY.replace(/\s+/g, ' ').trim()
 const TIMEOUT_MS = 12_000
 
-const projectId = import.meta.env.VITE_SANITY_PROJECT_ID as string | undefined
+// The cake builder's own Sanity project (public ID). An env var can point elsewhere, e.g. in tests.
+const projectId = (import.meta.env.VITE_SANITY_PROJECT_ID as string | undefined) || 'sxg9pxs1'
 const dataset = (import.meta.env.VITE_SANITY_DATASET as string | undefined) || 'production'
 
 /**

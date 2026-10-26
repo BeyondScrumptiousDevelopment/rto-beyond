@@ -6,7 +6,7 @@ import { structure } from './structure'
 export default defineConfig({
   name: 'cakes',
   title: 'Beyond Scrumptious — Cake Builder',
-  projectId: process.env.SANITY_STUDIO_PROJECT_ID || 'missing-project-id',
+  projectId: process.env.SANITY_STUDIO_PROJECT_ID || 'sxg9pxs1',
   dataset: process.env.SANITY_STUDIO_DATASET || 'production',
   plugins: [structureTool({ structure })],
   schema: {
