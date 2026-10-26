@@ -430,3 +430,18 @@ Publishing latency: the site reads Sanity's API CDN at runtime, so a published c
 8. **Copy and policy.** Should the main `/cakes` page and the privacy policy be updated later? This is your decision and wording, as a separate main-site change.
 9. **Catalogue content.** For the first designs, please supply the real names, photos, sizes, structures, prices, options and decorations. Until then, only clearly fake test data will be used, on staging only.
 10. **Environment access.** Optionally, allow `beyondscrumptious.com` and `*.sanity.io` in this development environment's network settings. That allows a visual audit of the live site and Studio verification.
+
+---
+
+## 12. Owner decisions (26 October 2026)
+
+| Question | Decision |
+|---|---|
+| CMS | **A new, separate Sanity project**, not shared with the main site. Types keep the `cake` prefix anyway |
+| Studio | A separate Cakes Studio deployed from this repo |
+| WhatsApp | +44 7933 903000 |
+| Custom orders | `https://www.beyondscrumptious.com/contact`, plus a WhatsApp custom-request route |
+| Main site / DNS | `websiteBS` is live, and DNS is on Cloudflare |
+| Analytics | None in v1 |
+| Sizes | All cakes: 6" round 3/4 layers, 8" round 2/3/4 layers, 6" square 3/4 layers. Prices and portions come from the owner's table. 6" square is still awaiting a price |
+| Toppers | Card topper £8, acrylic topper £15, name charm card £5 / acrylic £8, name and age card £9 / acrylic £15 |

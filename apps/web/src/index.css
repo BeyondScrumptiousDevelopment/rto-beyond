@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens taken from the main site (websiteBS: app/globals.css,
+ * Navbar, Footer, cakes page). See docs/PHASE-1-AUDIT.md §2.
+ */
+@theme {
+  --color-navy: #202b45;
+  --color-navy-deep: #161f36;
+  --color-navy-footer: #171f34;
+  --color-ink: #111111;
+  --color-cream: #f8f8f8;
+  --color-mist: #cfd7e2;
+  --color-slate: #8992a3;
+  --color-gold: #c9973f;
+  --color-gold-light: #f3e3c3;
+  --color-whatsapp: #25d366;
+  --color-alert: #f2b8b5;
+
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-logo: 'KonTiki', 'Playfair Display', serif;
+  --font-sans: Arial, Helvetica, sans-serif;
+}
+
+@font-face {
+  font-family: 'KonTiki';
+  src: url('/fonts/kontiki.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-ink);
+  color: white;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.logo-font {
+  font-family: var(--font-logo);
+}
+
+.heading-font {
+  font-family: var(--font-heading);
+}
+
+/* Visible focus for keyboard users on dark backgrounds. */
+:focus-visible {
+  outline: 2px solid var(--color-gold-light);
+  outline-offset: 3px;
+}
+
+/* Gentle fade-up, as on the main site, without a motion library. */
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.reveal {
+  animation: reveal 0.5s cubic-bezier(0.21, 0.47, 0.32, 0.98) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    animation: none;
+  }
+}
