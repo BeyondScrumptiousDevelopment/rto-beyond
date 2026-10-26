@@ -104,3 +104,7 @@ While the site is being tested, `functions/_middleware.ts` (a Cloudflare Pages F
 - The function runs on every request. Cloudflare's free plan includes a daily allowance of Functions requests (check the current limit), which is far more than a test site uses.
 
 This protects the **website** only. The catalogue in Sanity (prices, sizes, toppers) can still be read by anyone who knows the project ID, as with any public dataset. That's fine for catalogue data, but never put private information in Sanity.
+
+## `/studio` shortcut
+
+`https://<site>/studio` redirects to the hosted Studio (default `https://beyondscrumptious-cakes.sanity.studio`), where you log in with your Sanity account as usual. If the Studio was deployed under a different name, add a Pages environment variable `STUDIO_URL` with its full address and redeploy.

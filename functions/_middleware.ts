@@ -1,15 +1,16 @@
 import { AUTH_CHALLENGE_HEADERS, isAuthorised } from '../edge/basicAuth'
+import { studioRedirect } from '../edge/studioRedirect'
 
 /**
- * Cloudflare Pages middleware: password-protects the whole site while it is
- * a test environment.
- *
- * Set SITE_PASSWORD in the Pages project's environment variables (as a
- * secret) to turn protection on. Delete it to make the site public — no
- * code change or redeploy of code needed, just a new deployment.
+ * Cloudflare Pages middleware:
+ * - /studio redirects to the hosted Sanity Studio (STUDIO_URL, or the
+ *   default hostname from studio/sanity.cli.ts). Studio has its own login.
+ * - While SITE_PASSWORD is set (a Pages secret), the whole site asks for a
+ *   password. Delete it and redeploy to make the site public.
  */
 interface Env {
   SITE_PASSWORD?: string
+  STUDIO_URL?: string
 }
 
 interface Context {
@@ -19,6 +20,9 @@ interface Context {
 }
 
 export const onRequest = async ({ request, env, next }: Context): Promise<Response> => {
+  const redirect = studioRedirect(new URL(request.url), env.STUDIO_URL)
+  if (redirect) return Response.redirect(redirect, 302)
+
   const password = env.SITE_PASSWORD
   if (!password) return next()
 
