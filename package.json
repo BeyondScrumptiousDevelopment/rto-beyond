@@ -7,7 +7,7 @@
     "studio"
   ],
   "scripts": {
-    "test": "npm run test -w @bs/core && npm run test -w studio",
+    "test": "npm run test -w @bs/core && npm run test -w studio && vitest run --root edge",
     "typecheck": "npm run typecheck -w @bs/core && npm run typecheck -w web && npm run typecheck -w studio",
     "dev": "npm run dev -w web",
     "build": "npm run build -w web",

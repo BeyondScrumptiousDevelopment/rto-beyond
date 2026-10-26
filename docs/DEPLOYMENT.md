@@ -92,3 +92,15 @@ All of this is expected to run on free plans. **Check the current limits on each
 | Images | Sanity CDN | Served resized (`?w=…&auto=format`) to keep bandwidth low |
 | Domain | — | A subdomain of the existing domain costs nothing extra |
 | WhatsApp Click to Chat | Free | Uses `wa.me` links, so no WhatsApp Business API is needed |
+
+## Password-protected test environment
+
+While the site is being tested, `functions/_middleware.ts` (a Cloudflare Pages Function) asks for a password before showing anything.
+
+- **Turn it on:** go to the Pages project → **Settings → Variables and Secrets → Add**, set **Type** to *Secret*, **Name** to `SITE_PASSWORD` and **Value** to your chosen password, for both Production and Preview. Then redeploy (**Deployments → … → Retry deployment**).
+- **Log in:** the browser shows a sign-in box. Type anything (or nothing) as the username and the password as the password. Browsers remember it until they're closed.
+- **Turn it off for launch:** delete `SITE_PASSWORD` and redeploy.
+- While it's on, every response also carries `X-Robots-Tag: noindex`, so search engines won't list the test site.
+- The function runs on every request. Cloudflare's free plan includes a daily allowance of Functions requests (check the current limit), which is far more than a test site uses.
+
+This protects the **website** only. The catalogue in Sanity (prices, sizes, toppers) can still be read by anyone who knows the project ID, as with any public dataset. That's fine for catalogue data, but never put private information in Sanity.
