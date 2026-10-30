@@ -17,7 +17,7 @@ export async function mockSanity(
   const raw = rawTestCatalogue()
   options.mutate?.(raw)
   const requests: string[] = []
-  await page.route('https://testproject.apicdn.sanity.io/**', async (route) => {
+  await page.route('https://testproject.api.sanity.io/**', async (route) => {
     requests.push(route.request().url())
     if (options.status && options.status >= 400) return route.fulfill({ status: options.status, body: 'error' })
     await route.fulfill({ json: { result: options.catalogue ?? raw, ms: 1 } })

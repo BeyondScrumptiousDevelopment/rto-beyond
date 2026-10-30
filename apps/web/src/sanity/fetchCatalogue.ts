@@ -10,7 +10,7 @@ const projectId = (import.meta.env.VITE_SANITY_PROJECT_ID as string | undefined)
 const dataset = (import.meta.env.VITE_SANITY_DATASET as string | undefined) || 'production'
 
 /**
- * Fetches the published catalogue from Sanity's API CDN. No token is used,
+ * Fetches the published catalogue from Sanity's live API. No token is used,
  * so drafts and private data are never returned.
  *
  * Any failure throws — the UI then shows an error rather than stale or
@@ -19,7 +19,8 @@ const dataset = (import.meta.env.VITE_SANITY_DATASET as string | undefined) || '
 export async function fetchCatalogue(): Promise<ParseResult> {
   if (!projectId) throw new CatalogueError('The cake builder has not been connected to its catalogue yet.')
 
-  const url = `https://${projectId}.apicdn.sanity.io/${API_VERSION}/data/query/${dataset}?query=${encodeURIComponent(QUERY)}&perspective=published`
+  // The live API (not the API CDN) so published changes show on the next page load.
+  const url = `https://${projectId}.api.sanity.io/${API_VERSION}/data/query/${dataset}?query=${encodeURIComponent(QUERY)}&perspective=published`
 
   const controller = new AbortController()
   const timer = setTimeout(() => controller.abort(), TIMEOUT_MS)

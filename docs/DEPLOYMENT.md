@@ -66,7 +66,7 @@ In the Pages project, go to **Custom domains → Set up a domain** and enter `ca
 
 ## How quickly changes appear
 
-The site loads the catalogue from Sanity's API CDN every time a page is opened. **Publishing** a change in Studio normally shows on the site within about a minute, and no rebuild or deploy is needed. Saved but unpublished drafts never appear.
+The site loads the catalogue from Sanity's live API every time a page is opened, so a change you **Publish** in Studio shows on the next page load (refresh the page). No rebuild or deploy is needed. Saved but unpublished drafts never appear.
 
 If Sanity can't be reached, the site shows an error with a "Try again" button and **no prices**. It never falls back to old or cached prices.
 
