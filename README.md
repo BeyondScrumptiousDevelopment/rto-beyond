@@ -9,7 +9,8 @@ It does not replace or touch the main site (`beyondscrumptious.com`, repo `websi
 | `packages/core` | The pricing engine, decoration inheritance, date rules and WhatsApp message builder, written in pure TypeScript and fully unit-tested |
 | `apps/web` | The customer website (React, Vite, Tailwind), styled to match the main site |
 | `studio` | The Cakes Sanity Studio (schemas, desk structure, decoration overview) and the starter catalogue in `studio/seed` |
-| `docs/` | [Phase 1 audit](docs/PHASE-1-AUDIT.md), [deployment](docs/DEPLOYMENT.md), [Studio guide for the owner](docs/CMS-GUIDE.md) |
+| `docs/` | [Phase 1 audit](docs/PHASE-1-AUDIT.md), [deployment](docs/DEPLOYMENT.md), [Studio guide for the owner](docs/CMS-GUIDE.md), [security](docs/SECURITY.md) |
+| `functions/`, `edge/` | Cloudflare Pages middleware: test-site password, rate limiting, security headers, `/studio` redirect |
 
 ```bash
 npm install

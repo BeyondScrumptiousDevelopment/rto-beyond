@@ -1,5 +1,6 @@
 import type { Page } from '@playwright/test'
 import { rawTestCatalogue } from '../../../packages/core/fixtures/testCatalogue'
+import { CONTENT_SECURITY_POLICY } from '../../../edge/securityHeaders'
 
 export const NOW = new Date('2026-10-26T10:00:00Z')
 
@@ -23,5 +24,16 @@ export async function mockSanity(
     await route.fulfill({ json: { result: options.catalogue ?? raw, ms: 1 } })
   })
   await page.route('https://cdn.sanity.io/**', (route) => route.fulfill({ body: PIXEL, contentType: 'image/png' }))
-  return { requests }
+
+  // Serve pages with the production Content-Security-Policy and fail on any violation.
+  const cspViolations: string[] = []
+  page.on('console', (msg) => {
+    if (msg.type() === 'error' && /Content Security Policy/i.test(msg.text())) cspViolations.push(msg.text())
+  })
+  await page.route('http://localhost:4173/**', async (route) => {
+    if (route.request().resourceType() !== 'document') return route.continue()
+    const response = await route.fetch()
+    await route.fulfill({ response, headers: { ...response.headers(), 'content-security-policy': CONTENT_SECURITY_POLICY } })
+  })
+  return { requests, cspViolations }
 }

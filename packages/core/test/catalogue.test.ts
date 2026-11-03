@@ -100,6 +100,18 @@ describe('parseCatalogue', () => {
     expect(c.tierCount).toBe(1)
   })
 
+  it('accepts sparse records where Sanity omits empty fields', () => {
+    const { catalogue, issues } = load((raw) => {
+      ;(raw.designs as unknown[]).push({ id: 'des-sparse', name: 'Test Sparse', slug: 'test-sparse' })
+      ;(raw.options as unknown[]).push({ id: 'flv-sparse', kind: 'flavour', name: 'Test Sparse Flavour', pricing: { mode: 'included' }, active: true })
+    })
+    const sparse = catalogue.designs.find((d) => d.slug === 'test-sparse')
+    expect(sparse).toBeDefined()
+    expect(sparse!.mainImage).toBeNull()
+    expect(catalogue.options.find((o) => o.id === 'flv-sparse')!.pricing).toEqual({ mode: 'included' })
+    expect(issues.filter((i) => i.includes('Sparse'))).toEqual([])
+  })
+
   it('rejects duplicate slugs', () => {
     const { catalogue, issues } = load((raw) => {
       ;(raw.designs[1] as Record<string, unknown>).slug = 'test-design-a'
@@ -134,5 +146,28 @@ describe('toPricingRule', () => {
       }),
     ).toBeNull()
     expect(toPricingRule({ mode: 'mystery', amountPence: 100 })).toBeNull()
+  })
+})
+
+describe('link and image safety', () => {
+  it('rejects non-https links in settings', () => {
+    for (const bad of ['javascript:alert(1)', 'http://example.com', 'data:text/html,hi', 'https://user:pw@example.com']) {
+      const raw = rawTestCatalogue()
+      raw.settings.customOrderUrl = bad
+      expect(() => parseCatalogue(raw), bad).toThrow(CatalogueError)
+    }
+    const raw = rawTestCatalogue()
+    raw.settings.privacyNoticeUrl = 'javascript:alert(1)'
+    expect(() => parseCatalogue(raw)).toThrow(CatalogueError)
+  })
+
+  it('only accepts images from the Sanity CDN', () => {
+    const { catalogue, issues } = load((raw) => {
+      ;(raw.designs[0] as Record<string, unknown>).mainImage = { url: 'https://evil.example/x.jpg', alt: 'x' }
+      raw.decorations[0]!.imageUrl = 'javascript:alert(1)' as never
+    })
+    expect(catalogue.designs[0]!.mainImage).toBeNull()
+    expect(issues.some((i) => i.includes('Must be a Sanity CDN image'))).toBe(true)
+    expect(catalogue.decorations[0]!.imageUrl).toBeNull()
   })
 })

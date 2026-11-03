@@ -1,5 +1,5 @@
 /** Hosted Studio address, matching studioHost in studio/sanity.cli.ts. */
-export const DEFAULT_STUDIO_URL = 'https://beyondscrumptious-cakes.sanity.studio'
+const DEFAULT_STUDIO_URL = 'https://beyondscrumptious-cakes.sanity.studio'
 
 /**
  * Where /studio (and anything under it) should go, or null for other paths.

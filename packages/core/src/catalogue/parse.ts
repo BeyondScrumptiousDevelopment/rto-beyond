@@ -43,6 +43,20 @@ export interface ParseResult {
 }
 
 const text = z.string().trim().min(1)
+
+/** Only https links are allowed into href attributes — never javascript:, data: or http:. */
+export function isHttpsUrl(value: string, host?: string): boolean {
+  try {
+    const url = new URL(value)
+    return url.protocol === 'https:' && !url.username && !url.password && (!host || url.hostname === host)
+  } catch {
+    return false
+  }
+}
+const httpsUrl = z.string().trim().refine((v) => isHttpsUrl(v), 'Must be an https:// link')
+const optionalHttpsUrl = httpsUrl.nullish().transform((v) => v ?? null)
+// Catalogue images are only ever served from Sanity's image CDN.
+const sanityImageUrl = z.string().refine((v) => isHttpsUrl(v, 'cdn.sanity.io'), 'Must be a Sanity CDN image')
 const optText = z.string().nullish().transform((v) => (v && v.trim() ? v.trim() : null))
 const pence = z.number().int().nonnegative()
 const positiveInt = z.number().int().positive()
@@ -56,8 +70,8 @@ const ids = z
 const rawPricing = z
   .object({
     mode: z.string().nullish(),
-    amountPence: z.unknown(),
-    bySize: z.unknown(),
+    amountPence: z.unknown().optional(),
+    bySize: z.unknown().optional(),
   })
   .nullish()
 
@@ -100,7 +114,7 @@ function toPriceOverride(raw: unknown): PricingRule | null | 'invalid' {
 
 const settingsSchema = z.object({
   businessName: text,
-  mainWebsiteUrl: z.string().url(),
+  mainWebsiteUrl: httpsUrl,
   whatsappNumber: z
     .string()
     .transform((v) => v.replace(/[\s()+-]/g, ''))
@@ -111,13 +125,13 @@ const settingsSchema = z.object({
   defaultLeadTimeDays: z.number().int().min(0).max(365),
   collectionInstructions: optText,
   quotationDisclaimer: text,
-  privacyNoticeUrl: z.string().url().nullish().transform((v) => v ?? null),
-  customOrderUrl: z.string().url(),
+  privacyNoticeUrl: optionalHttpsUrl,
+  customOrderUrl: httpsUrl,
   customOrderCtaText: optText.transform((v) => v ?? 'Looking for something different? Request a custom cake.'),
   servingsNote: optText,
   dessertPortionsHelp: optText,
   coffeePortionsHelp: optText,
-  allergenInfoUrl: z.string().url().nullish().transform((v) => v ?? null),
+  allergenInfoUrl: optionalHttpsUrl,
   maintenanceNotice: optText,
   builderEnabled: bool(true),
 })
@@ -151,7 +165,7 @@ const optionSchema = z.object({
   kind: z.enum(['flavour', 'filling', 'frosting']),
   name: text,
   description: optText,
-  pricing: z.unknown(),
+  pricing: z.unknown().optional(),
   dietaryNotes: optText,
   active: bool(false),
   order,
@@ -161,7 +175,7 @@ const extraSchema = z.object({
   id: text,
   name: text,
   description: optText,
-  pricing: z.unknown(),
+  pricing: z.unknown().optional(),
   allowQuantity: bool(false),
   minQuantity: positiveInt.nullish(),
   maxQuantity: positiveInt.nullish(),
@@ -174,8 +188,11 @@ const decorationSchema = z.object({
   name: text,
   customerLabel: optText,
   description: optText,
-  imageUrl: optText,
-  pricing: z.unknown(),
+  imageUrl: z
+    .string()
+    .nullish()
+    .transform((v) => (v && isHttpsUrl(v, 'cdn.sanity.io') ? v : null)),
+  pricing: z.unknown().optional(),
   defaultAppliesTo: z.enum(['none', 'allDesigns', 'categories']).nullish().transform((v) => v ?? 'none'),
   defaultCategoryIds: ids,
   defaultStatus: z.enum(['included', 'optional']).nullish().transform((v) => v ?? 'optional'),
@@ -198,7 +215,7 @@ const categorySchema = z.object({
 
 const imageSchema = z
   .object({
-    url: z.string().url(),
+    url: sanityImageUrl,
     width: z.number().nullish().transform((v) => v ?? null),
     height: z.number().nullish().transform((v) => v ?? null),
     alt: optText,
@@ -239,7 +256,7 @@ const rawGroup = z
         z.object({
           optionId: z.string().nullish(),
           isDefault: z.boolean().nullish(),
-          priceOverride: z.unknown(),
+          priceOverride: z.unknown().optional(),
         }),
       )
       .nullish(),
@@ -255,8 +272,8 @@ const designSchema = z.object({
   shortDescription: optText,
   fullDescription: optText,
   structureNotes: optText,
-  mainImage: z.unknown(),
-  gallery: z.array(z.unknown()).nullish(),
+  mainImage: z.unknown().optional(),
+  gallery: z.array(z.unknown().optional()).nullish(),
   featured: bool(false),
   order,
   acceptingEnquiries: bool(true),
@@ -275,14 +292,14 @@ const designSchema = z.object({
   flavours: rawGroup,
   fillings: rawGroup,
   frostings: rawGroup,
-  extras: z.array(z.object({ extraId: z.string().nullish(), priceOverride: z.unknown() })).nullish(),
+  extras: z.array(z.object({ extraId: z.string().nullish(), priceOverride: z.unknown().optional() })).nullish(),
   inheritStandardDecorations: bool(true),
   decorationOverrides: z
     .array(
       z.object({
         decorationId: z.string().nullish(),
         action: z.enum(['include', 'optional', 'exclude']).nullish(),
-        priceOverride: z.unknown(),
+        priceOverride: z.unknown().optional(),
         restrictToConfigurationIds: ids,
         note: optText,
       }),
@@ -295,13 +312,13 @@ const designSchema = z.object({
 })
 
 const rootSchema = z.object({
-  settings: z.unknown(),
-  categories: z.array(z.unknown()).nullish(),
-  configurations: z.array(z.unknown()).nullish(),
-  options: z.array(z.unknown()).nullish(),
-  extras: z.array(z.unknown()).nullish(),
-  decorations: z.array(z.unknown()).nullish(),
-  designs: z.array(z.unknown()).nullish(),
+  settings: z.unknown().optional(),
+  categories: z.array(z.unknown().optional()).nullish(),
+  configurations: z.array(z.unknown().optional()).nullish(),
+  options: z.array(z.unknown().optional()).nullish(),
+  extras: z.array(z.unknown().optional()).nullish(),
+  decorations: z.array(z.unknown().optional()).nullish(),
+  designs: z.array(z.unknown().optional()).nullish(),
 })
 
 function describe(error: z.ZodError): string {

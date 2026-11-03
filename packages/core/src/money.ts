@@ -34,12 +34,6 @@ export function priceFor(rule: PricingRule | null, configurationId: string | nul
   }
 }
 
-/** Lowest price a rule can take across the given configurations (for "from" labels). */
-export function lowestPrice(rule: PricingRule | null, configurationIds: string[]): number | null {
-  const prices = configurationIds.map((id) => priceFor(rule, id)).filter((p): p is number => p !== null)
-  return prices.length ? Math.min(...prices) : null
-}
-
 /** Short human description of a normalised rule, e.g. "£8", "Included", "By size". */
 export function describePricingRule(rule: PricingRule | null): string {
   if (!rule) return 'No valid price'

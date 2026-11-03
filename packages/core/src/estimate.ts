@@ -1,4 +1,4 @@
-import { formatPence } from './money'
+import { cleanLine } from './sanitize'
 import {
   choicesFor,
   decorationsFor,
@@ -251,7 +251,7 @@ export function estimate(catalogue: Catalogue, selection: Selection): EstimateRe
     const parts: string[] = []
     const label = decorationLabel(r)
     if (p.name) {
-      const name = (given.name ?? '').trim()
+      const name = cleanLine(given.name ?? '', 1000)
       if (!name) {
         incomplete.push({ code: 'personalisationMissing', message: `Enter the name for ${label}.`, field: `personalisation.${r.decoration.id}.name` })
       } else if (name.length > NAME_MAX) {
@@ -259,7 +259,7 @@ export function estimate(catalogue: Catalogue, selection: Selection): EstimateRe
       } else parts.push(`Name: "${name}"`)
     }
     if (p.age) {
-      const age = (given.age ?? '').trim()
+      const age = cleanLine(given.age ?? '', 10)
       if (!age) {
         incomplete.push({ code: 'personalisationMissing', message: `Enter the age for ${label}.`, field: `personalisation.${r.decoration.id}.age` })
       } else if (!/^\d{1,3}$/.test(age) || Number(age) < 1 || Number(age) > 120) {
@@ -323,11 +323,6 @@ export function estimate(catalogue: Catalogue, selection: Selection): EstimateRe
 /** A ready-to-send estimate: priced and with nothing left to fill in. */
 export function isComplete(result: EstimateResult): result is Estimate & { totalPence: number; offered: OfferedConfiguration } {
   return result.ok && result.totalPence !== null && result.offered !== null && result.incomplete.length === 0
-}
-
-export function describeLine(line: EstimateLine): string {
-  const qty = line.quantity > 1 ? ` × ${line.quantity}` : ''
-  return `${line.label}${qty}: ${line.totalPence === 0 ? 'Included' : formatPence(line.totalPence)}`
 }
 
 function unique(ids: string[]): string[] {

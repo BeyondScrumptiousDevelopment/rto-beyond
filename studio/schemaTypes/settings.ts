@@ -14,8 +14,8 @@ export default defineType({
   ],
   fields: [
     defineField({ name: 'businessName', title: 'Business name', type: 'string', group: 'contact', initialValue: 'Beyond Scrumptious', validation: (Rule) => Rule.required() }),
-    defineField({ name: 'mainWebsiteUrl', title: 'Main website URL', type: 'url', group: 'contact', initialValue: 'https://www.beyondscrumptious.com', validation: (Rule) => Rule.required() }),
-    defineField({ name: 'cakeBuilderUrl', title: 'Cake builder URL', type: 'url', group: 'contact', initialValue: 'https://cakes.beyondscrumptious.com' }),
+    defineField({ name: 'mainWebsiteUrl', title: 'Main website URL', type: 'url', group: 'contact', initialValue: 'https://www.beyondscrumptious.com', validation: (Rule) => Rule.required().uri({ scheme: ['https'] }) }),
+    defineField({ name: 'cakeBuilderUrl', title: 'Cake builder URL', type: 'url', group: 'contact', initialValue: 'https://cakes.beyondscrumptious.com', validation: (Rule) => Rule.uri({ scheme: ['https'] }) }),
     defineField({
       name: 'whatsappNumber',
       title: 'WhatsApp number for enquiries',
@@ -25,15 +25,15 @@ export default defineType({
       validation: (Rule) => Rule.custom((v) => checkWhatsappNumber(v as string | undefined)),
     }),
     defineField({ name: 'contactEmail', title: 'Contact email', type: 'string', group: 'contact', validation: (Rule) => Rule.email() }),
-    defineField({ name: 'privacyNoticeUrl', title: 'Privacy notice URL', type: 'url', group: 'contact' }),
-    defineField({ name: 'allergenInfoUrl', title: 'Allergen information URL', type: 'url', group: 'contact' }),
+    defineField({ name: 'privacyNoticeUrl', title: 'Privacy notice URL', type: 'url', group: 'contact', validation: (Rule) => Rule.uri({ scheme: ['https'] }) }),
+    defineField({ name: 'allergenInfoUrl', title: 'Allergen information URL', type: 'url', group: 'contact', validation: (Rule) => Rule.uri({ scheme: ['https'] }) }),
     defineField({
       name: 'customOrderUrl',
       title: 'Custom order enquiry URL',
       description: 'Where "Request a custom cake" links to.',
       type: 'url',
       group: 'contact',
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.required().uri({ scheme: ['https'] }),
     }),
 
     defineField({ name: 'currency', title: 'Currency', type: 'string', group: 'ordering', initialValue: 'GBP', readOnly: true }),

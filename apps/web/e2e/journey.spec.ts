@@ -105,7 +105,7 @@ test.describe('design page', () => {
 })
 
 test('full journey: configure, enter details and send the enquiry via WhatsApp', async ({ page, context, browserName }) => {
-  await mockSanity(page)
+  const { cspViolations } = await mockSanity(page)
   if (browserName === 'chromium') await context.grantPermissions(['clipboard-read', 'clipboard-write'])
 
   await page.goto('/')
@@ -183,6 +183,8 @@ test('full journey: configure, enter details and send the enquiry via WhatsApp',
   await page.goBack()
 
   await expectNoOrderLanguage(page)
+  // The whole journey runs under the production Content-Security-Policy.
+  expect(cspViolations).toEqual([])
 })
 
 test('copy fallback and custom requests', async ({ page, context, browserName }) => {

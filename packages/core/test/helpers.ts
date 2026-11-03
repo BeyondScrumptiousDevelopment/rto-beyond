@@ -2,7 +2,7 @@ import { rawTestCatalogue } from '../fixtures/testCatalogue'
 import { parseCatalogue } from '../src/catalogue/parse'
 import { emptySelection, type Selection } from '../src/types'
 
-export const FETCHED_AT = '2026-10-26T10:00:00.000Z'
+const FETCHED_AT = '2026-10-26T10:00:00.000Z'
 
 export function load(mutate?: (raw: ReturnType<typeof rawTestCatalogue>) => void) {
   const raw = rawTestCatalogue()

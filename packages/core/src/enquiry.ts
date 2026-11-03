@@ -1,5 +1,6 @@
 import { formatDate } from './dates'
 import { formatPence } from './money'
+import { cleanLine, cleanText } from './sanitize'
 import type { Estimate, EstimateLine } from './estimate'
 import type { OfferedConfiguration } from './resolve'
 import type { Catalogue, Configuration } from './types'
@@ -43,7 +44,8 @@ export interface DetailsIssue {
 
 const PHONE = /^\+?[\d\s()-]{7,20}$/
 
-export function checkCustomerDetails(c: CustomerDetails): DetailsIssue[] {
+export function checkCustomerDetails(raw: CustomerDetails): DetailsIssue[] {
+  const c = { ...raw, name: cleanLine(raw.name, 1000), phone: cleanLine(raw.phone, 1000), occasion: cleanLine(raw.occasion, 1000), notes: cleanText(raw.notes, 5000) }
   const issues: DetailsIssue[] = []
   if (!c.name.trim()) issues.push({ field: 'name', message: 'Enter your name.' })
   else if (c.name.trim().length > 80) issues.push({ field: 'name', message: 'Name must be 80 characters or fewer.' })
@@ -102,9 +104,9 @@ export function buildEnquiryMessage({ catalogue, estimate, customer }: EnquiryIn
   add('*BEYOND SCRUMPTIOUS — CAKE ENQUIRY*', '')
 
   add('*Customer details*')
-  add(`Name: ${customer.name.trim()}`)
-  add(`Contact number: ${customer.phone.trim()}`)
-  add(`Occasion: ${customer.occasion.trim() || 'Not specified'}`, '')
+  add(`Name: ${cleanLine(customer.name, 80)}`)
+  add(`Contact number: ${cleanLine(customer.phone, 20)}`)
+  add(`Occasion: ${cleanLine(customer.occasion, 80) || 'Not specified'}`, '')
 
   add('*Selected design*')
   add(`Cake: ${design.name}`)
@@ -136,7 +138,7 @@ export function buildEnquiryMessage({ catalogue, estimate, customer }: EnquiryIn
 
   add('*Collection request*')
   add(`Requested date: ${formatDate(customer.collectionDate)}`)
-  add(`Requested time: ${customer.collectionTime || 'Not specified'}`)
+  add(`Requested time: ${cleanLine(customer.collectionTime, 5) || 'Not specified'}`)
   add('(Requested only — not yet confirmed or reserved)', '')
 
   add('*Estimated price*')
@@ -154,7 +156,7 @@ export function buildEnquiryMessage({ catalogue, estimate, customer }: EnquiryIn
   } else {
     add('*Additional notes*')
   }
-  add(customer.notes.trim() || 'None', '')
+  add(cleanText(customer.notes, 1000) || 'None', '')
 
   add(`Catalogue prices as of ${catalogue.fetchedAt.slice(0, 10)}`, '')
   add(DISCLAIMER_HEADING)

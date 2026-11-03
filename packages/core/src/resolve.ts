@@ -1,5 +1,4 @@
 import { priceFor } from './money'
-import { INVALID_OVERRIDE } from './catalogue/parse'
 import type {
   CakeOption,
   Catalogue,
@@ -267,8 +266,4 @@ export function startingPrice(catalogue: Catalogue, design: Design): number | nu
     if (completable && (best === null || total < best)) best = total
   }
   return best
-}
-
-export function isInvalidOverride(rule: PricingRule | null): boolean {
-  return rule === INVALID_OVERRIDE
 }
