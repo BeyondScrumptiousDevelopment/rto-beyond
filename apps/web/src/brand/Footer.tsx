@@ -10,11 +10,11 @@ export default function Footer({ settings }: { settings?: Settings }) {
 
   return (
     <footer className="relative bg-surface px-6 pt-0 pb-10 text-navy">
-      <BrandPiping />
+      <BrandPiping shape="wave" />
       <div className="mx-auto max-w-7xl pt-20">
         <div className="grid gap-12 border-b border-navy/10 pb-14 md:grid-cols-4">
           <div>
-            <img src="/images/logo-navy.png" alt="Beyond Scrumptious" className="mb-4 h-8 w-auto" />
+            <img src="/images/logo-stacked-navy.png" alt="Beyond Scrumptious" width={494} height={480} className="mb-6 h-32 w-auto" />
             <p className="mb-8 text-sm uppercase tracking-[0.2em] text-slate">
               Cakes • Desserts • Live Dessert Experiences
             </p>

@@ -12,7 +12,7 @@ export default function Navbar({ customOrderUrl }: { customOrderUrl?: string }) 
     <nav aria-label="Main" className="on-navy fixed top-0 left-0 z-50 w-full bg-navy/95 px-5 py-5 text-mist backdrop-blur-md md:px-12 md:py-6">
       <div className="flex items-center justify-between gap-4">
         <a href={MAIN_SITE} className="block shrink-0">
-          <img src="/images/wordmark-mist.png" alt="Beyond Scrumptious" className="h-6 w-auto md:h-8" />
+          <img src="/images/logo-mark-mist.png" alt="Beyond Scrumptious" width={474} height={480} className="h-10 w-auto md:h-12" />
         </a>
 
         <div className="hidden items-center gap-7 whitespace-nowrap text-sm uppercase tracking-[0.2em] text-mist/80 xl:flex">

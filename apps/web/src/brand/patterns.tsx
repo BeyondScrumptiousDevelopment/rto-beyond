@@ -57,14 +57,21 @@ export function BrandCurve({ side = 'left', tone = 'onLight' }: { side?: 'left' 
   )
 }
 
-/** Piped-icing edge used along the top of the footer. */
-export function BrandPiping({ tone = 'onLight', id = 'bs-piping' }: { tone?: Tone; id?: string }) {
+/** Piped-icing scallop edge, or the ripple curve as a thin divider ('wave', used above the footer). */
+export function BrandPiping({ tone = 'onLight', shape = 'scallop' }: { tone?: Tone; shape?: 'scallop' | 'wave' }) {
   const { stroke, opacity } = line(tone)
+  const id = shape === 'wave' ? 'bs-piping-wave' : 'bs-piping'
   return (
     <svg aria-hidden="true" className="h-6 w-full">
       <defs>
-        <pattern id={id} width="48" height="24" patternUnits="userSpaceOnUse">
-          <path d="M0 24A12 12 0 0 1 24 24A12 12 0 0 1 48 24" fill="none" stroke={stroke} strokeOpacity={opacity} strokeWidth="1.2" />
+        <pattern id={id} width={shape === 'wave' ? 80 : 48} height="24" patternUnits="userSpaceOnUse">
+          <path
+            d={shape === 'wave' ? 'M0 12C20 2 20 2 40 12S60 22 80 12' : 'M0 24A12 12 0 0 1 24 24A12 12 0 0 1 48 24'}
+            fill="none"
+            stroke={stroke}
+            strokeOpacity={opacity}
+            strokeWidth="1.2"
+          />
         </pattern>
       </defs>
       <rect width="100%" height="100%" fill={`url(#${id})`} />
