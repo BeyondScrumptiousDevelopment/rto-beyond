@@ -17,7 +17,7 @@ function price(line: EstimateLine) {
 export function PriceSummary({ result, customRequest = false }: { result: EstimateResult; customRequest?: boolean }) {
   if (!result.ok) {
     return (
-      <div role="alert" className="rounded-2xl border border-alert/60 bg-alert/10 p-5 text-sm text-alert">
+      <div role="alert" className="rounded-none border border-alert/40 bg-alert-soft p-5 text-sm text-alert">
         <p className="mb-2 font-semibold">We can't calculate an estimate for this selection</p>
         <ul className="list-disc space-y-1 pl-5">
           {result.errors.map((e, i) => (
@@ -34,14 +34,14 @@ export function PriceSummary({ result, customRequest = false }: { result: Estima
         const lines = result.lines.filter((l) => l.kind === kind)
         if (!lines.length) return null
         return (
-          <div key={kind} className="border-b border-white/10 py-3">
-            <p className="mb-1 text-xs uppercase tracking-[0.2em] text-mist/60">{title}</p>
+          <div key={kind} className="border-b border-navy/10 py-3">
+            <p className="mb-1 text-xs uppercase tracking-[0.2em] text-slate">{title}</p>
             {lines.map((line) => (
               <div key={line.id} className="flex justify-between gap-4 text-sm">
                 <span>
                   {line.kind === 'base' ? line.label.split(' — ').slice(1).join(' — ') || line.label : line.label}
                   {line.quantity > 1 && ` × ${line.quantity}`}
-                  {line.detail && <span className="block text-xs text-cream/60">{line.detail}</span>}
+                  {line.detail && <span className="block text-xs text-navy/70">{line.detail}</span>}
                 </span>
                 <span className="shrink-0 tabular-nums">{price(line)}</span>
               </div>
@@ -51,13 +51,13 @@ export function PriceSummary({ result, customRequest = false }: { result: Estima
       })}
 
       {result.includedDecorations.length > 0 && (
-        <div className="border-b border-white/10 py-3">
-          <p className="mb-1 text-xs uppercase tracking-[0.2em] text-mist/60">Included decorations</p>
+        <div className="border-b border-navy/10 py-3">
+          <p className="mb-1 text-xs uppercase tracking-[0.2em] text-slate">Included decorations</p>
           {result.includedDecorations.map((d) => (
             <div key={d.id} className="flex justify-between gap-4 text-sm">
               <span>
                 {d.label}
-                {d.detail && <span className="block text-xs text-cream/60">{d.detail}</span>}
+                {d.detail && <span className="block text-xs text-navy/70">{d.detail}</span>}
               </span>
               <span className="shrink-0">Included</span>
             </div>
@@ -66,12 +66,12 @@ export function PriceSummary({ result, customRequest = false }: { result: Estima
       )}
 
       <div className="flex items-baseline justify-between gap-4 pt-4">
-        <span className="text-sm uppercase tracking-[0.2em] text-mist">Estimated total</span>
+        <span className="text-sm uppercase tracking-[0.2em] text-slate">Estimated total</span>
         <span className="heading-font text-3xl tabular-nums" data-testid="estimated-total">
           {result.totalPence === null ? '—' : formatPence(result.totalPence)}
         </span>
       </div>
-      <p className="mt-2 text-xs leading-5 text-cream/50">
+      <p className="mt-2 text-xs leading-5 text-navy/60">
         {customRequest
           ? 'Ready-to-order items only. Your custom request is not included and will be quoted separately.'
           : 'An estimate only. Beyond Scrumptious will confirm the final price.'}

@@ -1,6 +1,7 @@
 import { FaWhatsapp } from 'react-icons/fa'
 import { buildCustomEnquiryMessage, whatsappUrl, type Catalogue, type Design } from '@bs/core'
-import { btnSecondary } from '../brand/ui'
+import { btnOnNavy, btnOnNavySecondary, btnSecondary } from '../brand/ui'
+import { BrandRipple } from '../brand/patterns'
 
 /**
  * Routes anything outside the ready-to-order catalogue to a custom enquiry.
@@ -22,26 +23,49 @@ export function CustomOrderCta({
   )
   const prompt = design?.customRouting.customPrompt
 
+  const text =
+    prompt ??
+    'New designs, extra images, characters, logos, unlisted decorations or other sizes are quoted individually by Beyond Scrumptious — they are not priced here.'
+
+  if (compact) {
+    return (
+      <section aria-labelledby="custom-cta-heading" className="rounded-none border border-slate/20 bg-mist p-5">
+        <h2 id="custom-cta-heading" className="heading-font mb-2 text-xl">
+          {settings.customOrderCtaText}
+        </h2>
+        <p className="mb-4 text-sm leading-7 text-navy/75">
+          {text}
+          {design && ' You can mention this design as a reference.'}
+        </p>
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <a href={settings.customOrderUrl} className={btnSecondary}>
+            Request a custom cake
+          </a>
+          <a href={whatsapp} target="_blank" rel="noopener noreferrer" className={btnSecondary}>
+            <FaWhatsapp aria-hidden className="text-lg" /> Ask on WhatsApp
+          </a>
+        </div>
+      </section>
+    )
+  }
+
+  // Full-width navy band with the ripple pattern, as on the main site's homepage.
   return (
-    <section
-      aria-labelledby="custom-cta-heading"
-      className={compact ? 'rounded-2xl border border-white/15 p-5' : 'rounded-[2rem] bg-navy-deep p-8 text-center shadow-xl md:p-12'}
-    >
-      <h2 id="custom-cta-heading" className={compact ? 'heading-font mb-2 text-xl' : 'heading-font mb-4 text-3xl md:text-4xl'}>
-        {settings.customOrderCtaText}
-      </h2>
-      <p className={`leading-7 text-cream/70 ${compact ? 'mb-4 text-sm' : 'mx-auto mb-8 max-w-2xl'}`}>
-        {prompt ??
-          'New designs, extra images, characters, logos, unlisted decorations or other sizes are quoted individually by Beyond Scrumptious — they are not priced here.'}
-        {design && ' You can mention this design as a reference.'}
-      </p>
-      <div className={`flex flex-col gap-3 sm:flex-row ${compact ? '' : 'justify-center'}`}>
-        <a href={settings.customOrderUrl} className={btnSecondary}>
-          Request a custom cake
-        </a>
-        <a href={whatsapp} target="_blank" rel="noopener noreferrer" className={btnSecondary}>
-          <FaWhatsapp aria-hidden className="text-lg" /> Ask on WhatsApp
-        </a>
+    <section aria-labelledby="custom-cta-heading" className="on-navy relative overflow-hidden bg-navy px-6 py-24 text-center text-mist md:py-28">
+      <BrandRipple />
+      <div className="relative mx-auto max-w-3xl">
+        <h2 id="custom-cta-heading" className="heading-font mb-6 text-3xl md:text-5xl">
+          {settings.customOrderCtaText}
+        </h2>
+        <p className="mx-auto mb-10 max-w-2xl leading-8 text-mist/80">{text}</p>
+        <div className="flex flex-col justify-center gap-3 sm:flex-row">
+          <a href={settings.customOrderUrl} className={btnOnNavy}>
+            Request a custom cake
+          </a>
+          <a href={whatsapp} target="_blank" rel="noopener noreferrer" className={btnOnNavySecondary}>
+            <FaWhatsapp aria-hidden className="text-lg" /> Ask on WhatsApp
+          </a>
+        </div>
       </div>
     </section>
   )

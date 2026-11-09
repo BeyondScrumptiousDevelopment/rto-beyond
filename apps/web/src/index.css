@@ -1,33 +1,25 @@
 @import "tailwindcss";
 
 /*
- * Design tokens taken from the main site (websiteBS: app/globals.css,
- * Navbar, Footer, cakes page). See docs/PHASE-1-AUDIT.md §2.
+ * Design tokens from the main site's rebranded design system
+ * (websiteBS: app/globals.css, app/layout.tsx, Navbar, Footer, Brand*).
  */
 @theme {
-  --color-navy: #202b45;
-  --color-navy-deep: #161f36;
-  --color-navy-footer: #171f34;
-  --color-ink: #111111;
-  --color-cream: #f8f8f8;
-  --color-mist: #cfd7e2;
-  --color-slate: #8992a3;
-  --color-gold: #c9973f;
-  --color-gold-light: #f3e3c3;
+  /* New brand kit (navy/blue), from the main site's rebrand. */
+  --color-navy: #19253f;
+  --color-navy-dark: #131c2f;
+  --color-slate: #3f5478;
+  --color-surface: #d8e8f4;
+  --color-mist: #f3f8fb;
+  --color-sky: #c5d7ec;
+  --color-sky-deep: #9bb3d3;
   --color-whatsapp: #25d366;
-  --color-alert: #f2b8b5;
+  --color-alert: #9b1c1c;
+  --color-alert-soft: #fbeaea;
 
   --font-heading: 'Playfair Display', Georgia, serif;
-  --font-logo: 'KonTiki', 'Playfair Display', serif;
-  --font-sans: Arial, Helvetica, sans-serif;
-}
-
-@font-face {
-  font-family: 'KonTiki';
-  src: url('/fonts/kontiki.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+  --font-accent: 'Cormorant Garamond', Georgia, serif;
 }
 
 html {
@@ -35,24 +27,48 @@ html {
 }
 
 body {
-  background: var(--color-ink);
-  color: white;
-  font-family: var(--font-sans);
+  background: var(--color-surface);
+  color: var(--color-navy);
+  font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
-.logo-font {
-  font-family: var(--font-logo);
+/* As on the main site: Playfair for text, DM Sans for small capitals. */
+.bs-brand {
+  font-family: var(--font-heading);
+}
+
+.bs-brand [class*="uppercase"] {
+  font-family: var(--font-sans);
+}
+
+/* Form controls stay in the clean sans for legibility. */
+.bs-brand input,
+.bs-brand textarea,
+.bs-brand select {
+  font-family: var(--font-sans);
+}
+
+.bs-accent {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
 }
 
 .heading-font {
   font-family: var(--font-heading);
 }
 
-/* Visible focus for keyboard users on dark backgrounds. */
+/* Visible focus for keyboard users. */
 :focus-visible {
-  outline: 2px solid var(--color-gold-light);
+  outline: 2px solid var(--color-navy);
   outline-offset: 3px;
+}
+
+.on-navy :focus-visible {
+  outline-color: var(--color-mist);
 }
 
 /* Gentle fade-up, as on the main site, without a motion library. */

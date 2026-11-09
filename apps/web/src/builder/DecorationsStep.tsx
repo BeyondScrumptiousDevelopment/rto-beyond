@@ -5,7 +5,7 @@ import {
   type ResolvedDecoration,
   type ResolvedExtra,
 } from '@bs/core'
-import { choiceClass, inputClass, labelClass } from '../brand/ui'
+import { choiceClass, inputClass, labelClass, choiceSubtext } from '../brand/ui'
 
 type Personalisation = Record<string, { name?: string; age?: string }>
 
@@ -25,7 +25,7 @@ function PersonalisationFields({
   const id = r.decoration.id
   const issueFor = (f: string) => issues.find((i) => i.field === `personalisation.${id}.${f}`)
   return (
-    <div className="mt-3 grid gap-4 rounded-xl bg-white/5 p-4 sm:grid-cols-2">
+    <div className="mt-3 grid gap-4 rounded-[2px] bg-navy/5 p-4 sm:grid-cols-2">
       {p.name && (
         <div>
           <label className={labelClass} htmlFor={`${id}-name`}>
@@ -99,15 +99,15 @@ export function DecorationsStep({
           <h3 id="included-heading" className="heading-font mb-2 text-2xl">
             Included with this design
           </h3>
-          <p className="mb-4 text-sm text-cream/60">These are part of the price shown — no extra charge.</p>
+          <p className="mb-4 text-sm text-navy/70">These are part of the price shown — no extra charge.</p>
           <ul className="space-y-3">
             {decorations.included.map((r) => (
-              <li key={r.decoration.id} className="rounded-xl border border-white/15 bg-white/5 px-4 py-3">
+              <li key={r.decoration.id} className="rounded-[2px] border border-navy/15 bg-navy/5 px-4 py-3">
                 <div className="flex items-baseline justify-between gap-3">
-                  <span className={replaced.has(r.decoration.id) ? 'text-cream/50 line-through' : ''}>{decorationLabel(r)}</span>
-                  <span className="text-sm text-mist">{replaced.has(r.decoration.id) ? 'Upgraded' : 'Included'}</span>
+                  <span className={replaced.has(r.decoration.id) ? 'text-navy/60 line-through' : ''}>{decorationLabel(r)}</span>
+                  <span className="text-sm text-slate">{replaced.has(r.decoration.id) ? 'Upgraded' : 'Included'}</span>
                 </div>
-                {r.decoration.description && <p className="mt-1 text-sm text-cream/60">{r.decoration.description}</p>}
+                {r.decoration.description && <p className="mt-1 text-sm text-navy/70">{r.decoration.description}</p>}
                 {!replaced.has(r.decoration.id) && (
                   <PersonalisationFields
                     r={r}
@@ -125,10 +125,10 @@ export function DecorationsStep({
       <fieldset aria-describedby={decorationIssues.length ? 'decoration-issues' : undefined}>
         <legend className="heading-font mb-2 text-2xl">Additional decorations</legend>
         {decorations.optional.length === 0 ? (
-          <p className="text-sm text-cream/60">No additional decorations are offered for this design and size.</p>
+          <p className="text-sm text-navy/70">No additional decorations are offered for this design and size.</p>
         ) : (
           <>
-            <p className="mb-4 text-sm text-cream/60">Optional. Prices are added to your estimate.</p>
+            <p className="mb-4 text-sm text-navy/70">Optional. Prices are added to your estimate.</p>
             <div className="grid gap-3">
               {decorations.optional.map((r) => {
                 const id = r.decoration.id
@@ -150,11 +150,11 @@ export function DecorationsStep({
                           <span className="shrink-0 text-sm tabular-nums">+{formatPence(r.pricePence)}</span>
                         </span>
                         {r.decoration.description && (
-                          <span className={`mt-1 block text-sm ${isSelected ? 'text-navy/70' : 'text-cream/60'}`}>{r.decoration.description}</span>
+                          <span className={`mt-1 block text-sm ${choiceSubtext(isSelected)}`}>{r.decoration.description}</span>
                         )}
-                        {r.note && <span className={`mt-1 block text-sm italic ${isSelected ? 'text-navy/70' : 'text-cream/60'}`}>{r.note}</span>}
+                        {r.note && <span className={`mt-1 block text-sm italic ${choiceSubtext(isSelected)}`}>{r.note}</span>}
                         {(r.decoration.personalisation.name || r.decoration.personalisation.age) && (
-                          <span className={`mt-1 block text-xs ${isSelected ? 'text-navy/60' : 'text-mist/70'}`}>
+                          <span className={`mt-1 block text-xs ${choiceSubtext(isSelected)}`}>
                             Personalised with {[r.decoration.personalisation.name && 'a name', r.decoration.personalisation.age && 'an age'].filter(Boolean).join(' and ')}
                           </span>
                         )}
@@ -186,7 +186,7 @@ export function DecorationsStep({
       {extras.length > 0 && (
         <fieldset>
           <legend className="heading-font mb-2 text-2xl">Extras</legend>
-          <p className="mb-4 text-sm text-cream/60">Optional.</p>
+          <p className="mb-4 text-sm text-navy/70">Optional.</p>
           <div className="grid gap-3">
             {extras.map(({ extra, pricePence }) => {
               const qty = selectedExtras[extra.id] ?? 0
@@ -201,7 +201,7 @@ export function DecorationsStep({
                         aria-label={`Fewer ${extra.name}`}
                         disabled={qty === 0}
                         onClick={() => setQty(qty <= range.min ? 0 : qty - 1)}
-                        className="h-9 w-9 rounded-full border border-current text-lg disabled:opacity-30"
+                        className="h-9 w-9 rounded-[2px] border border-current text-lg disabled:opacity-30"
                       >
                         −
                       </button>
@@ -213,7 +213,7 @@ export function DecorationsStep({
                         aria-label={`More ${extra.name}`}
                         disabled={qty >= range.max}
                         onClick={() => setQty(qty === 0 ? range.min : qty + 1)}
-                        className="h-9 w-9 rounded-full border border-current text-lg disabled:opacity-30"
+                        className="h-9 w-9 rounded-[2px] border border-current text-lg disabled:opacity-30"
                       >
                         +
                       </button>
@@ -234,7 +234,7 @@ export function DecorationsStep({
                         {pricePence === 0 ? 'Included' : `+${formatPence(pricePence)}${range ? ' each' : ''}`}
                       </span>
                     </span>
-                    {extra.description && <span className={`mt-1 block text-sm ${qty > 0 ? 'text-navy/70' : 'text-cream/60'}`}>{extra.description}</span>}
+                    {extra.description && <span className={`mt-1 block text-sm ${choiceSubtext(qty > 0)}`}>{extra.description}</span>}
                   </span>
                 </div>
               )

@@ -1,5 +1,5 @@
 import { formatPence, priceFor, type OptionKind, type ResolvedGroup } from '@bs/core'
-import { choiceClass } from '../brand/ui'
+import { choiceClass, choiceSubtext } from '../brand/ui'
 
 const TITLES: Record<OptionKind, { title: string; noun: string }> = {
   flavour: { title: 'Sponge flavour', noun: 'flavour' },
@@ -23,7 +23,7 @@ export function OptionsStep({
   const kinds = (Object.keys(TITLES) as OptionKind[]).filter((k) => groups[k].choices.length > 0)
 
   if (!kinds.length) {
-    return <p className="text-cream/70">This design has no flavour choices to make — continue to the next step.</p>
+    return <p className="text-navy/75">This design has no flavour choices to make — continue to the next step.</p>
   }
 
   return (
@@ -38,9 +38,9 @@ export function OptionsStep({
           <fieldset key={kind} aria-describedby={groupIssues.length ? `${kind}-issues` : undefined}>
             <legend className="heading-font mb-2 text-2xl">
               {title}
-              {!group.required && <span className="ml-2 text-sm text-cream/50">(optional)</span>}
+              {!group.required && <span className="ml-2 text-sm text-navy/60">(optional)</span>}
             </legend>
-            <p className="mb-4 text-sm text-cream/60">
+            <p className="mb-4 text-sm text-navy/70">
               {multi ? `Choose up to ${group.maxSelections} ${noun}s.` : `Choose one ${noun}.`}
             </p>
             <div className="grid gap-3 sm:grid-cols-2">
@@ -72,10 +72,10 @@ export function OptionsStep({
                         </span>
                       </span>
                       {choice.option.description && (
-                        <span className={`mt-1 block text-sm ${isSelected ? 'text-navy/70' : 'text-cream/60'}`}>{choice.option.description}</span>
+                        <span className={`mt-1 block text-sm ${choiceSubtext(isSelected)}`}>{choice.option.description}</span>
                       )}
                       {choice.option.dietaryNotes && (
-                        <span className={`mt-1 block text-xs ${isSelected ? 'text-navy/70' : 'text-mist/70'}`}>{choice.option.dietaryNotes}</span>
+                        <span className={`mt-1 block text-xs ${choiceSubtext(isSelected)}`}>{choice.option.dietaryNotes}</span>
                       )}
                     </span>
                   </label>

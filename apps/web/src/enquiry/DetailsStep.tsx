@@ -40,7 +40,7 @@ export function DetailsStep({
       </label>
       {input}
       {hint && (
-        <p id={`${id}-hint`} className="mt-2 text-sm text-cream/60">
+        <p id={`${id}-hint`} className="mt-2 text-sm text-navy/70">
           {hint}
         </p>
       )}
@@ -59,9 +59,9 @@ export function DetailsStep({
     <div className="space-y-10">
       <fieldset className="space-y-6">
         <legend className="heading-font mb-2 text-2xl">Collection request</legend>
-        <p className="text-sm leading-6 text-cream/60">
+        <p className="text-sm leading-6 text-navy/70">
           This cake needs at least {leadDays} days' notice — the earliest date you can request is{' '}
-          <strong className="text-cream">{formatDate(earliest)}</strong>. Meeting the notice period does not mean a date
+          <strong className="text-navy">{formatDate(earliest)}</strong>. Meeting the notice period does not mean a date
           is available: every date is subject to confirmation by Beyond Scrumptious.
         </p>
         <div className="grid gap-6 sm:grid-cols-2">
@@ -96,7 +96,7 @@ export function DetailsStep({
             timeError,
           )}
         </div>
-        {settings.collectionInstructions && <p className="text-sm leading-6 text-cream/60">{settings.collectionInstructions}</p>}
+        {settings.collectionInstructions && <p className="text-sm leading-6 text-navy/70">{settings.collectionInstructions}</p>}
       </fieldset>
 
       <fieldset className="space-y-6">
@@ -166,16 +166,16 @@ export function DetailsStep({
           'Anything else we should know. Notes are not priced.',
         )}
 
-        <label className="flex gap-4 rounded-xl border border-white/20 bg-white/5 p-4">
+        <label className="flex gap-4 rounded-[2px] border border-navy/20 bg-navy/5 p-4">
           <input
             type="checkbox"
             checked={customer.customRequest}
             onChange={(e) => set('customRequest', e.target.checked)}
-            className="mt-1 h-4 w-4 shrink-0 accent-gold"
+            className="mt-1 h-4 w-4 shrink-0 accent-navy"
           />
           <span className="text-sm leading-6">
             <span className="font-semibold">My request includes something not listed here</span>
-            <span className="block text-cream/60">
+            <span className="block text-navy/70">
               For example an extra image, a character or logo, a different decoration or a design change. Describe it in
               the notes — it will be marked as a custom request, reviewed and quoted separately by Beyond Scrumptious,
               and is <strong>not included in the estimate</strong>.
@@ -185,9 +185,9 @@ export function DetailsStep({
       </fieldset>
 
       {settings.privacyNoticeUrl && (
-        <p className="text-xs leading-5 text-cream/50">
+        <p className="text-xs leading-5 text-navy/60">
           Your details are only used to prepare your WhatsApp message — they aren't saved by this website. See our{' '}
-          <a href={settings.privacyNoticeUrl} className="underline hover:text-cream">
+          <a href={settings.privacyNoticeUrl} className="underline hover:text-navy">
             privacy notice
           </a>
           .

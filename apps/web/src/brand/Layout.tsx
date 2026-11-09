@@ -8,10 +8,10 @@ export default function Layout({ children }: { children: ReactNode }) {
   const settings = state.status === 'ready' ? state.catalogue.settings : undefined
 
   return (
-    <div className="flex min-h-screen flex-col bg-navy text-cream">
+    <div className="bs-brand flex min-h-screen flex-col bg-surface text-navy">
       <a
         href="#main"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:rounded-full focus:bg-cream focus:px-6 focus:py-3 focus:text-navy"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:rounded-[2px] focus:bg-navy focus:px-6 focus:py-3 focus:text-mist"
       >
         Skip to content
       </a>

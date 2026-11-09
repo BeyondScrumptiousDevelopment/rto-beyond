@@ -5,17 +5,18 @@ import { mainNavLinks, MAIN_SITE } from './links'
 
 export default function Navbar({ customOrderUrl }: { customOrderUrl?: string }) {
   const [open, setOpen] = useState(false)
-  const enquireHref = customOrderUrl ?? `${MAIN_SITE}/contact`
+  const quoteHref = customOrderUrl ?? `${MAIN_SITE}/contact`
 
   return (
-    <nav aria-label="Main" className="fixed top-0 left-0 z-50 w-full bg-navy/80 px-5 py-5 backdrop-blur-md md:px-12 md:py-6">
+    // Solid navy (the main site uses navy at 20% over a photo hero) so the light wordmark stays legible on this page's light background.
+    <nav aria-label="Main" className="on-navy fixed top-0 left-0 z-50 w-full bg-navy/95 px-5 py-5 text-mist backdrop-blur-md md:px-12 md:py-6">
       <div className="flex items-center justify-between gap-4">
-        <a href={MAIN_SITE} className="logo-font shrink-0 text-2xl text-cream md:text-4xl">
-          Beyond Scrumptious
+        <a href={MAIN_SITE} className="block shrink-0">
+          <img src="/images/wordmark-mist.png" alt="Beyond Scrumptious" className="h-6 w-auto md:h-8" />
         </a>
 
-        <div className="hidden items-center gap-6 whitespace-nowrap text-sm uppercase tracking-[0.2em] text-cream/80 xl:flex">
-          <Link to="/" className="text-gold transition hover:text-gold-light">
+        <div className="hidden items-center gap-7 whitespace-nowrap text-sm uppercase tracking-[0.2em] text-mist/80 xl:flex">
+          <Link to="/" aria-current="page" className="text-mist underline decoration-mist/50 underline-offset-8">
             Ready-to-Order
           </Link>
           {mainNavLinks.map((link) => (
@@ -23,18 +24,15 @@ export default function Navbar({ customOrderUrl }: { customOrderUrl?: string }) 
               {link.label}
             </a>
           ))}
-          <a
-            href={enquireHref}
-            className="rounded-full bg-cream px-6 py-3 text-navy transition hover:bg-mist"
-          >
-            Custom Enquiry
+          <a href={quoteHref} className="rounded-[2px] bg-mist px-6 py-3 text-navy transition hover:bg-surface">
+            Request Your Quote
           </a>
         </div>
 
         <button
           type="button"
           onClick={() => setOpen(!open)}
-          className="flex h-10 w-10 items-center justify-center text-2xl text-cream xl:hidden"
+          className="flex h-10 w-10 items-center justify-center text-2xl text-mist xl:hidden"
           aria-label={open ? 'Close menu' : 'Open menu'}
           aria-expanded={open}
           aria-controls="mobile-menu"
@@ -44,11 +42,8 @@ export default function Navbar({ customOrderUrl }: { customOrderUrl?: string }) 
       </div>
 
       {open && (
-        <div
-          id="mobile-menu"
-          className="mt-5 flex flex-col gap-6 rounded-3xl bg-navy p-6 text-sm uppercase tracking-[0.3em] text-cream/80 xl:hidden"
-        >
-          <Link to="/" className="text-gold" onClick={() => setOpen(false)}>
+        <div id="mobile-menu" className="mt-5 flex flex-col gap-6 bg-navy p-6 text-sm uppercase tracking-[0.3em] text-mist/80 xl:hidden">
+          <Link to="/" className="text-mist underline decoration-mist/50 underline-offset-8" onClick={() => setOpen(false)}>
             Ready-to-Order Cakes
           </Link>
           {mainNavLinks.map((link) => (
@@ -56,11 +51,8 @@ export default function Navbar({ customOrderUrl }: { customOrderUrl?: string }) 
               {link.label}
             </a>
           ))}
-          <a
-            href={enquireHref}
-            className="rounded-full bg-cream px-6 py-4 text-center tracking-normal text-navy normal-case"
-          >
-            Custom Cake Enquiry
+          <a href={quoteHref} className="rounded-[2px] bg-mist px-6 py-4 text-center tracking-normal text-navy normal-case">
+            Request Your Quote
           </a>
         </div>
       )}

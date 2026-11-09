@@ -45,7 +45,7 @@ export default function DesignPage({ catalogue }: { catalogue: Catalogue }) {
     return (
       <div className="px-6 pt-40 pb-28 text-center">
         <h1 className="heading-font mb-6 text-4xl">Design not found</h1>
-        <p className="mb-10 text-cream/70">This cake design isn't available at the moment.</p>
+        <p className="mb-10 text-navy/75">This cake design isn't available at the moment.</p>
         <Link to="/" className={btnPrimary}>
           See all designs
         </Link>
@@ -155,14 +155,14 @@ function DesignBuilder({ catalogue, slug }: { catalogue: Catalogue; slug: string
     <>
       <div className="px-5 pt-32 pb-24 md:px-8 md:pt-40">
         <div className="mx-auto max-w-7xl">
-          <Link to="/" className="mb-8 inline-block text-sm uppercase tracking-[0.2em] text-mist/70 hover:text-cream">
+          <Link to="/" className="mb-8 inline-block text-sm uppercase tracking-[0.2em] text-slate hover:text-navy">
             ← All designs
           </Link>
 
           <header className="reveal mb-10 max-w-3xl">
             {category && <p className={`${eyebrow} mb-4`}>{category.name}</p>}
             <h1 className="heading-font mb-4 text-4xl leading-tight md:text-6xl">{design.name}</h1>
-            {design.shortDescription && <p className="text-lg leading-8 text-cream/70">{design.shortDescription}</p>}
+            {design.shortDescription && <p className="text-lg leading-8 text-navy/75">{design.shortDescription}</p>}
           </header>
 
           <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_24rem] xl:grid-cols-[minmax(0,1fr)_26rem]">
@@ -170,25 +170,25 @@ function DesignBuilder({ catalogue, slug }: { catalogue: Catalogue; slug: string
               <Gallery images={images} designName={design.name} />
 
               {(design.fullDescription || design.structureNotes || design.dietaryInfo || design.allergenInfo) && (
-                <section aria-labelledby="about-heading" className="space-y-4 leading-7 text-cream/80">
-                  <h2 id="about-heading" className="heading-font text-2xl text-cream">
+                <section aria-labelledby="about-heading" className="space-y-4 leading-7 text-navy/80">
+                  <h2 id="about-heading" className="heading-font text-2xl text-navy">
                     About this design
                   </h2>
                   {design.fullDescription && <p className="whitespace-pre-line">{design.fullDescription}</p>}
                   {design.structureNotes && <p className="whitespace-pre-line">{design.structureNotes}</p>}
                   {design.dietaryInfo && (
                     <p>
-                      <strong className="text-cream">Dietary:</strong> {design.dietaryInfo}
+                      <strong className="text-navy">Dietary:</strong> {design.dietaryInfo}
                     </p>
                   )}
                   {design.allergenInfo && (
                     <p>
-                      <strong className="text-cream">Allergens:</strong> {design.allergenInfo}
+                      <strong className="text-navy">Allergens:</strong> {design.allergenInfo}
                     </p>
                   )}
                   {settings.allergenInfoUrl && (
                     <p className="text-sm">
-                      <a href={settings.allergenInfoUrl} className="underline hover:text-cream">
+                      <a href={settings.allergenInfoUrl} className="underline hover:text-navy">
                         Read our allergen information
                       </a>
                     </p>
@@ -224,12 +224,12 @@ function DesignBuilder({ catalogue, slug }: { catalogue: Catalogue; slug: string
                               disabled={!enabled}
                               onClick={() => goTo(s.id)}
                               aria-current={isCurrent ? 'step' : undefined}
-                              className={`rounded-full px-4 py-2 text-xs uppercase tracking-[0.15em] transition ${
+                              className={`rounded-[2px] px-4 py-2 text-xs uppercase tracking-[0.15em] transition ${
                                 isCurrent
-                                  ? 'bg-cream text-navy'
+                                  ? 'bg-navy text-mist'
                                   : enabled
-                                    ? 'border border-cream/30 text-cream hover:bg-cream/10'
-                                    : 'border border-white/10 text-cream/30'
+                                    ? 'border border-navy/30 text-navy hover:bg-navy/5'
+                                    : 'border border-navy/10 text-navy/40'
                               }`}
                             >
                               {i + 1}. {s.label}
@@ -338,7 +338,7 @@ function DesignBuilder({ catalogue, slug }: { catalogue: Catalogue; slug: string
                   </h2>
                   <PriceSummary result={result} customRequest={customer.customRequest} />
                   {current !== 'review' && (
-                    <p className="text-xs leading-5 text-cream/60">
+                    <p className="text-xs leading-5 text-navy/70">
                       You'll review everything before sending. Sending an enquiry does not confirm an order.
                     </p>
                   )}
@@ -353,9 +353,9 @@ function DesignBuilder({ catalogue, slug }: { catalogue: Catalogue; slug: string
       {!blocked && result.ok && result.totalPence !== null && (
         <a
           href="#estimate"
-          className="fixed inset-x-0 bottom-0 z-40 flex items-center justify-between border-t border-white/10 bg-navy-deep/95 px-5 py-4 backdrop-blur lg:hidden"
+          className="fixed inset-x-0 bottom-0 z-40 flex items-center justify-between bg-navy px-5 py-4 text-mist lg:hidden"
         >
-          <span className="text-xs uppercase tracking-[0.2em] text-mist">Estimated total</span>
+          <span className="text-xs uppercase tracking-[0.2em] text-mist/80">Estimated total</span>
           <span className="heading-font text-2xl tabular-nums">{formatPence(result.totalPence)}</span>
         </a>
       )}

@@ -17,8 +17,8 @@ import { Disclaimer } from './Disclaimer'
 
 function Row({ label, value }: { label: string; value: React.ReactNode }) {
   return (
-    <div className="grid grid-cols-[8rem_1fr] gap-3 border-b border-white/10 py-2 text-sm sm:grid-cols-[11rem_1fr]">
-      <dt className="text-mist/70">{label}</dt>
+    <div className="grid grid-cols-[8rem_1fr] gap-3 border-b border-navy/10 py-2 text-sm sm:grid-cols-[11rem_1fr]">
+      <dt className="text-slate">{label}</dt>
       <dd>{value}</dd>
     </div>
   )
@@ -59,9 +59,9 @@ export function ReviewStep({
               <img
                 src={imageUrl(design.mainImage.url, 600)}
                 alt={design.mainImage.alt}
-                className="aspect-square w-full rounded-2xl bg-black object-cover"
+                className="aspect-square w-full rounded-none bg-navy object-cover"
               />
-              <figcaption className="mt-2 text-xs text-cream/50">
+              <figcaption className="mt-2 text-xs text-navy/60">
                 Reference photo of the design. Your selections are listed alongside.
               </figcaption>
             </figure>
@@ -113,7 +113,7 @@ export function ReviewStep({
         </div>
       </section>
 
-      <section aria-labelledby="estimate-heading" className="rounded-2xl bg-white/5 p-5 md:p-6">
+      <section aria-labelledby="estimate-heading" className="rounded-none bg-navy/5 p-5 md:p-6">
         <h3 id="estimate-heading" className="heading-font mb-2 text-2xl">
           Estimated price
         </h3>
@@ -146,20 +146,20 @@ export function ReviewStep({
 
         <div aria-live="polite" className="space-y-2 text-sm">
           {opened && (
-            <p className="text-cream/80">
+            <p className="text-navy/80">
               WhatsApp should now open with your message. Please check it and <strong>press send in WhatsApp</strong> —
               we only receive your enquiry once you send it. If WhatsApp didn't open, copy the enquiry and send it to
               us yourself.
             </p>
           )}
-          {copied === 'done' && <p className="text-mist">Enquiry copied. Paste it into WhatsApp or a message to us.</p>}
+          {copied === 'done' && <p className="text-slate">Enquiry copied. Paste it into WhatsApp or a message to us.</p>}
           {copied === 'failed' && (
             <p className="text-alert">Copying didn't work on this device — select the text below and copy it instead.</p>
           )}
         </div>
 
-        <details className="rounded-2xl border border-white/15 p-4" open={copied === 'failed'}>
-          <summary className="cursor-pointer text-sm uppercase tracking-[0.15em] text-mist">
+        <details className="rounded-none border border-navy/15 p-4" open={copied === 'failed'}>
+          <summary className="cursor-pointer text-sm uppercase tracking-[0.15em] text-slate">
             Preview the message we'll prepare
           </summary>
           <textarea
@@ -167,7 +167,7 @@ export function ReviewStep({
             value={message}
             rows={14}
             aria-label="Enquiry message"
-            className="mt-4 w-full rounded-xl bg-white/95 p-4 font-mono text-xs text-navy"
+            className="mt-4 w-full rounded-[2px] border border-slate/20 bg-mist p-4 font-mono text-xs text-navy"
             onFocus={(e) => e.currentTarget.select()}
           />
         </details>

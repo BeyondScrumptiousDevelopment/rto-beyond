@@ -27,7 +27,7 @@ export function Gallery({ images, designName }: { images: CakeImage[]; designNam
 
   if (!images.length) {
     return (
-      <div className="flex aspect-[4/3] items-center justify-center rounded-[2rem] bg-navy-deep text-center text-cream/60">
+      <div className="flex aspect-[4/3] items-center justify-center rounded-none border border-slate/20 bg-mist text-center text-navy/70">
         <p className="px-6">Photos of {designName} are coming soon.</p>
       </div>
     )
@@ -40,7 +40,7 @@ export function Gallery({ images, designName }: { images: CakeImage[]; designNam
   return (
     <div>
       <figure>
-        <div className="relative overflow-hidden rounded-[2rem] bg-black shadow-2xl">
+        <div className="relative overflow-hidden rounded-none bg-navy">
           <img
             src={imageUrl(current.url, 1200)}
             srcSet={imageSrcSet(current.url)}
@@ -54,7 +54,7 @@ export function Gallery({ images, designName }: { images: CakeImage[]; designNam
             <span
               key={`${label.text}-${i}`}
               aria-hidden
-              className="absolute flex h-7 w-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-white bg-navy text-xs font-bold text-cream shadow-lg"
+              className="absolute flex h-7 w-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-mist bg-navy text-xs font-bold text-mist"
               style={{ left: `${label.x}%`, top: `${label.y}%` }}
             >
               {i + 1}
@@ -62,8 +62,8 @@ export function Gallery({ images, designName }: { images: CakeImage[]; designNam
           ))}
         </div>
 
-        <figcaption className="mt-4 space-y-3 text-sm text-cream/80">
-          <p className="text-xs uppercase tracking-[0.2em] text-mist/60">
+        <figcaption className="mt-4 space-y-3 text-sm text-navy/80">
+          <p className="text-xs uppercase tracking-[0.2em] text-slate">
             {VIEW_LABEL[current.view]}
             {images.length > 1 && ` · ${index + 1} of ${images.length}`}
           </p>
@@ -71,27 +71,27 @@ export function Gallery({ images, designName }: { images: CakeImage[]; designNam
           {(overlays.length > 0 || beside.length > 0) && (
             <ul className="flex flex-wrap gap-2" aria-label="Photo labels">
               {overlays.map((label, i) => (
-                <li key={`o-${i}`} className="flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5">
-                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-cream text-[0.65rem] font-bold text-navy" aria-label={`Marker ${i + 1}`}>
+                <li key={`o-${i}`} className="flex items-center gap-2 rounded-[2px] border border-navy/10 bg-mist px-3 py-1.5">
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-navy text-[0.65rem] font-bold text-mist" aria-label={`Marker ${i + 1}`}>
                     {i + 1}
                   </span>
                   {label.text}
                 </li>
               ))}
               {beside.map((label, i) => (
-                <li key={`b-${i}`} className="rounded-full bg-white/10 px-3 py-1.5">
+                <li key={`b-${i}`} className="rounded-[2px] border border-navy/10 bg-mist px-3 py-1.5">
                   {label.text}
                 </li>
               ))}
             </ul>
           )}
           {current.shownElements.length > 0 && (
-            <div className="rounded-xl border border-gold/50 bg-gold/10 p-3 text-gold-light">
+            <div className="rounded-[2px] border border-slate/30 bg-sky p-3 text-navy">
               <p className="mb-1 text-xs font-semibold uppercase tracking-[0.15em]">Shown in this photo</p>
               <ul className="space-y-1">
                 {current.shownElements.map((el, i) => (
                   <li key={i}>
-                    {el.description} — <span className="text-cream">{SHOWN_STATUS[el.status]}</span>
+                    {el.description} — <span className="text-navy">{SHOWN_STATUS[el.status]}</span>
                   </li>
                 ))}
               </ul>
@@ -109,9 +109,9 @@ export function Gallery({ images, designName }: { images: CakeImage[]; designNam
                 onClick={() => setIndex(i)}
                 aria-label={`Show photo ${i + 1}: ${img.caption ?? VIEW_LABEL[img.view]}`}
                 aria-current={i === index}
-                className={`block overflow-hidden rounded-xl border-2 transition ${i === index ? 'border-cream' : 'border-transparent opacity-70 hover:opacity-100'}`}
+                className={`block overflow-hidden rounded-[2px] border-2 transition ${i === index ? 'border-navy' : 'border-transparent opacity-70 hover:opacity-100'}`}
               >
-                <img src={imageUrl(img.url, 200)} alt="" className="h-16 w-20 bg-black object-cover" loading="lazy" />
+                <img src={imageUrl(img.url, 200)} alt="" className="h-16 w-20 bg-navy object-cover" loading="lazy" />
               </button>
             </li>
           ))}

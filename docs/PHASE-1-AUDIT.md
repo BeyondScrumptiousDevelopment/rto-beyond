@@ -51,6 +51,16 @@ So the design audit below comes from the **production source code**, not from wh
 
 ## 2. Design audit (from source)
 
+> **Update, 9 November 2026:** the main site has been rebranded (websiteBS commit `a75ed18`, "Full rebrand pass using the official Design System kit"). The cake builder now follows the new kit:
+>
+> - **Colours:** powder-blue `#D8E8F4` surface, navy `#19253F` text and buttons, slate `#3F5478` labels, mist `#F3F8FB` cards.
+> - **Shapes:** sharp corners (buttons 2px).
+> - **Logo:** image files.
+> - **Fonts:** Playfair Display, DM Sans for small capitals, and Cormorant Garamond italic accents.
+> - **Patterns:** curve, piping and ripple.
+>
+> The tables below describe the earlier dark design and are kept for history.
+
 ### 2.1 Colour tokens
 
 | Token (proposed name) | Hex | Where it is used |

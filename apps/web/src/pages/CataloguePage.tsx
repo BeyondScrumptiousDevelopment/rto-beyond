@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { formatPence, startingPrice, type Catalogue, type Design } from '@bs/core'
 import { eyebrow } from '../brand/ui'
+import { BrandCurve, SectionSeam } from '../brand/patterns'
 import { CustomOrderCta } from '../enquiry/CustomOrderCta'
 import { imageSrcSet, imageUrl } from '../sanity/fetchCatalogue'
 import { resolveConfigurations } from '@bs/core'
@@ -24,9 +25,9 @@ function DesignCard({ catalogue, design }: { catalogue: Catalogue; design: Desig
     <li className="reveal">
       <Link
         to={`/cakes/${design.slug}`}
-        className="group flex h-full flex-col overflow-hidden rounded-[2rem] bg-navy-deep shadow-xl transition hover:-translate-y-1 hover:shadow-2xl"
+        className="group flex h-full flex-col overflow-hidden rounded-none border border-slate/20 bg-mist transition hover:border-slate/50"
       >
-        <div className="aspect-[4/3] overflow-hidden bg-black">
+        <div className="aspect-[4/3] overflow-hidden bg-sky">
           {design.mainImage ? (
             <img
               src={imageUrl(design.mainImage.url, 800)}
@@ -37,20 +38,20 @@ function DesignCard({ catalogue, design }: { catalogue: Catalogue; design: Desig
               className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]"
             />
           ) : (
-            <div className="flex h-full items-center justify-center text-cream/50">Photo coming soon</div>
+            <div className="flex h-full items-center justify-center text-navy/60">Photo coming soon</div>
           )}
         </div>
         <div className="flex flex-1 flex-col p-6 md:p-8">
           <h2 className="heading-font mb-3 text-2xl md:text-3xl">{design.name}</h2>
-          {design.shortDescription && <p className="mb-5 leading-7 text-cream/70">{design.shortDescription}</p>}
+          {design.shortDescription && <p className="mb-5 leading-7 text-navy/75">{design.shortDescription}</p>}
           <div className="mt-auto space-y-2 text-sm">
-            {sizes && <p className="text-mist/80">{sizes}</p>}
+            {sizes && <p className="text-slate">{sizes}</p>}
             {from !== null && (
-              <p className="text-lg text-cream">
+              <p className="text-lg text-navy">
                 From <span className="font-semibold">{formatPence(from)}</span>
               </p>
             )}
-            <p className={`text-xs uppercase tracking-[0.2em] ${canEnquire ? 'text-gold' : 'text-cream/50'}`}>
+            <p className={`text-xs uppercase tracking-[0.2em] ${canEnquire ? 'font-semibold text-navy' : 'text-navy/60'}`}>
               {canEnquire ? 'Available to enquire' : 'Not taking enquiries at the moment'}
             </p>
           </div>
@@ -78,30 +79,38 @@ export default function CataloguePage({ catalogue }: { catalogue: Catalogue }) {
 
   return (
     <>
-      <section className="px-6 pt-40 pb-16 text-center md:pt-48">
-        <div className="reveal mx-auto max-w-4xl">
+      <section className="relative overflow-hidden px-6 pt-40 pb-20 text-center md:pt-48">
+        <BrandCurve side="left" />
+        <BrandCurve side="right" />
+        <div className="reveal relative mx-auto max-w-4xl">
           <p className={`${eyebrow} mb-6`}>Eggless cakes · Harrow & London</p>
-          <h1 className="heading-font mb-8 text-5xl leading-tight md:text-7xl">Ready-to-Order Cakes</h1>
-          <p className="mx-auto max-w-3xl text-lg leading-8 text-cream/70 md:text-xl">
+          <h1 className="heading-font mb-8 text-5xl leading-tight md:text-7xl">
+            Ready-to-Order <span className="bs-accent">Cakes</span>
+          </h1>
+          <p className="mx-auto max-w-3xl text-lg leading-8 text-navy/75 md:text-xl">
             Choose a design, pick your size, flavours and finishing touches, and see an estimated price. Then send us
             your enquiry on WhatsApp — we'll review it and confirm the details with you.
           </p>
-          <p className="mx-auto mt-6 max-w-2xl text-sm text-cream/50">
+          <p className="mx-auto mt-6 max-w-2xl text-sm text-navy/60">
             Please allow at least {settings.defaultLeadTimeDays} days' notice. Sending an enquiry does not confirm an
             order or reserve a date.
           </p>
         </div>
       </section>
 
+      <div className="mb-16">
+        <SectionSeam />
+      </div>
+
       {settings.maintenanceNotice && (
         <div className="mx-auto mb-10 max-w-3xl px-6">
-          <div role="status" className="rounded-2xl border border-gold/60 bg-gold/10 p-5 text-center text-gold-light">
+          <div role="status" className="rounded-none border border-slate/40 bg-sky p-5 text-center text-navy">
             {settings.maintenanceNotice}
           </div>
         </div>
       )}
 
-      <section aria-label="Cake designs" className="bg-mist/0 px-6 pb-24">
+      <section aria-label="Cake designs" className="px-6 pb-24">
         <div className="mx-auto max-w-7xl">
           {categories.length > 1 && (
             <div className="mb-10 flex flex-wrap justify-center gap-3" role="group" aria-label="Filter by category">
@@ -109,7 +118,7 @@ export default function CataloguePage({ catalogue }: { catalogue: Catalogue }) {
                 type="button"
                 aria-pressed={category === null}
                 onClick={() => setCategory(null)}
-                className={`rounded-full px-5 py-2 text-sm uppercase tracking-[0.15em] transition ${category === null ? 'bg-cream text-navy' : 'border border-cream/30 hover:bg-cream/10'}`}
+                className={`rounded-[2px] px-5 py-2 text-sm uppercase tracking-[0.15em] transition ${category === null ? 'bg-navy text-mist' : 'border border-navy/30 hover:bg-navy/5'}`}
               >
                 All
               </button>
@@ -119,7 +128,7 @@ export default function CataloguePage({ catalogue }: { catalogue: Catalogue }) {
                   type="button"
                   aria-pressed={category === c.id}
                   onClick={() => setCategory(c.id)}
-                  className={`rounded-full px-5 py-2 text-sm uppercase tracking-[0.15em] transition ${category === c.id ? 'bg-cream text-navy' : 'border border-cream/30 hover:bg-cream/10'}`}
+                  className={`rounded-[2px] px-5 py-2 text-sm uppercase tracking-[0.15em] transition ${category === c.id ? 'bg-navy text-mist' : 'border border-navy/30 hover:bg-navy/5'}`}
                 >
                   {c.name}
                 </button>
@@ -134,18 +143,14 @@ export default function CataloguePage({ catalogue }: { catalogue: Catalogue }) {
               ))}
             </ul>
           ) : (
-            <p className="py-16 text-center text-cream/60">
+            <p className="py-16 text-center text-navy/70">
               New designs are on their way. In the meantime, ask us about a custom cake.
             </p>
           )}
         </div>
       </section>
 
-      <section className="px-6 pb-28">
-        <div className="mx-auto max-w-5xl">
-          <CustomOrderCta catalogue={catalogue} />
-        </div>
-      </section>
+      <CustomOrderCta catalogue={catalogue} />
     </>
   )
 }
